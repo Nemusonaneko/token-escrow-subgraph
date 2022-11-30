@@ -1,0 +1,29 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: TokenEscrow
+    network: goerli
+    source:
+      address: "0x74Ff0886A0c0960a792C27ecc4b02C253B59b92B"
+      abi: TokenEscrow
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Create
+        - Redeem
+        - Revoke
+      abis:
+        - name: TokenEscrow
+          file: ./abis/TokenEscrow.json
+      eventHandlers:
+        - event: Create(address,address,address,uint256,uint256)
+          handler: handleCreate
+        - event: Redeem(address,address,address,uint256,uint256)
+          handler: handleRedeem
+        - event: Revoke(address,address,address,uint256,uint256)
+          handler: handleRevoke
+      file: ./src/token-escrow.ts

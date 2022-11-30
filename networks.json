@@ -1,0 +1,7 @@
+{
+  "goerli": {
+    "TokenEscrow": {
+      "address": "0x74Ff0886A0c0960a792C27ecc4b02C253B59b92B"
+    }
+  }
+}

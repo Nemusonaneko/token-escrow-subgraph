@@ -1,0 +1,35 @@
+type Create @entity(immutable: true) {
+  id: Bytes!
+  token: Bytes! # address
+  payer: Bytes! # address
+  payee: Bytes! # address
+  amount: BigInt! # uint256
+  release: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Redeem @entity(immutable: true) {
+  id: Bytes!
+  token: Bytes! # address
+  payer: Bytes! # address
+  payee: Bytes! # address
+  amount: BigInt! # uint256
+  release: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Revoke @entity(immutable: true) {
+  id: Bytes!
+  token: Bytes! # address
+  payer: Bytes! # address
+  payee: Bytes! # address
+  amount: BigInt! # uint256
+  release: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
