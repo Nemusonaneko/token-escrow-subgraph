@@ -1,57 +1,41 @@
-import {
-  Create as CreateEvent,
-  Redeem as RedeemEvent,
-  Revoke as RevokeEvent
-} from "../generated/TokenEscrow/TokenEscrow"
-import { Create, Redeem, Revoke } from "../generated/schema"
+import { Create, Redeem, Revoke } from "../generated/TokenEscrow/TokenEscrow";
+import { Token, Escrow } from "../generated/schema";
+import { ERC20 } from "../utils/ERC20";
 
-export function handleCreate(event: CreateEvent): void {
-  let entity = new Create(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.token = event.params.token
-  entity.payer = event.params.payer
-  entity.payee = event.params.payee
-  entity.amount = event.params.amount
-  entity.release = event.params.release
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
+export function handleCreate(event: Create): void {
+  let entity = Escrow.load(event.params.id.toHexString());
+  if (entity === null) {
+    entity = new Escrow(event.params.id.toHexString());
+    let token = Token.load(event.params.token.toHexString());
+    if (token === null) {
+      token = new Token(event.params.token.toHexString());
+      const erc20 = ERC20.bind(event.params.token);
+      token.address = event.params.token;
+      token.symbol = erc20.try_symbol().value;
+      token.name = erc20.try_name().value;
+      token.decimals = erc20.try_decimals().value;
+      token.save();
+    }
+    entity.token = token.id;
+    entity.payer = event.params.payer;
+    entity.payee = event.params.payee;
+    entity.amount = event.params.amount;
+    entity.release = event.params.release;
+  }
+  entity.active = true;
+  entity.save();
 }
 
-export function handleRedeem(event: RedeemEvent): void {
-  let entity = new Redeem(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.token = event.params.token
-  entity.payer = event.params.payer
-  entity.payee = event.params.payee
-  entity.amount = event.params.amount
-  entity.release = event.params.release
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
+export function handleRedeem(event: Redeem): void {
+  let entity = Escrow.load(event.params.id.toHexString());
+  if (!entity) return;
+  entity.active = false;
+  entity.save();
 }
 
-export function handleRevoke(event: RevokeEvent): void {
-  let entity = new Revoke(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.token = event.params.token
-  entity.payer = event.params.payer
-  entity.payee = event.params.payee
-  entity.amount = event.params.amount
-  entity.release = event.params.release
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
+export function handleRevoke(event: Revoke): void {
+  let entity = Escrow.load(event.params.id.toHexString());
+  if (!entity) return;
+  entity.active = false;
+  entity.save();
 }

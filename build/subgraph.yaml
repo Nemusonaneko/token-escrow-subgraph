@@ -1,6 +1,6 @@
 specVersion: 0.0.5
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: TokenEscrow
@@ -19,7 +19,7 @@ dataSources:
         - Revoke
       abis:
         - name: TokenEscrow
-          file: ./abis/TokenEscrow.json
+          file: TokenEscrow/abis/TokenEscrow.json
       eventHandlers:
         - event: Create(address,address,address,uint256,uint256,bytes32)
           handler: handleCreate
@@ -27,4 +27,4 @@ dataSources:
           handler: handleRedeem
         - event: Revoke(address,address,address,uint256,uint256,bytes32)
           handler: handleRevoke
-      file: ./src/token-escrow.ts
+      file: TokenEscrow/TokenEscrow.wasm
