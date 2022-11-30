@@ -1,6 +1,6 @@
 import { Create, Redeem, Revoke } from "../generated/TokenEscrow/TokenEscrow";
+import { ERC20 } from "../generated/TokenEscrow/ERC20";
 import { Token, Escrow } from "../generated/schema";
-import { ERC20 } from "../utils/ERC20";
 
 export function handleCreate(event: Create): void {
   let entity = Escrow.load(event.params.id.toHexString());

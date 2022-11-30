@@ -20,6 +20,8 @@ dataSources:
       abis:
         - name: TokenEscrow
           file: ./abis/TokenEscrow.json
+        - name: ERC20
+          file: ./abis/ERC20.json
       eventHandlers:
         - event: Create(address,address,address,uint256,uint256,bytes32)
           handler: handleCreate
