@@ -42,6 +42,15 @@ export class Escrow extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get escrowId(): Bytes {
+    let value = this.get("escrowId");
+    return value!.toBytes();
+  }
+
+  set escrowId(value: Bytes) {
+    this.set("escrowId", Value.fromBytes(value));
+  }
+
   get token(): string {
     let value = this.get("token");
     return value!.toString();

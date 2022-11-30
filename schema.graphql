@@ -1,5 +1,6 @@
 type Escrow @entity {
   id: ID!
+  escrowId: Bytes!
   token: Token!
   payer: Bytes!
   payee: Bytes!

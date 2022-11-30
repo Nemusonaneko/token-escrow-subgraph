@@ -16,6 +16,7 @@ export function handleCreate(event: Create): void {
       token.decimals = erc20.try_decimals().value;
       token.save();
     }
+    entity.escrowId = event.params.id;
     entity.token = token.id;
     entity.payer = event.params.payer;
     entity.payee = event.params.payee;
