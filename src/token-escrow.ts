@@ -23,6 +23,7 @@ export function handleCreate(event: Create): void {
     entity.amount = event.params.amount;
     entity.release = event.params.release;
   }
+  entity.revoked = false;
   entity.active = true;
   entity.save();
 }
@@ -37,6 +38,7 @@ export function handleRedeem(event: Redeem): void {
 export function handleRevoke(event: Revoke): void {
   let entity = Escrow.load(event.params.id.toHexString());
   if (!entity) return;
+  entity.revoked = true;
   entity.active = false;
   entity.save();
 }

@@ -104,6 +104,15 @@ export class Escrow extends Entity {
   set active(value: boolean) {
     this.set("active", Value.fromBoolean(value));
   }
+
+  get revoked(): boolean {
+    let value = this.get("revoked");
+    return value!.toBoolean();
+  }
+
+  set revoked(value: boolean) {
+    this.set("revoked", Value.fromBoolean(value));
+  }
 }
 
 export class Token extends Entity {
